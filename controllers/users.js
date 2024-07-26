@@ -22,7 +22,7 @@ router.post('/signup', async (req, res) => {
         })
         //Create a new profile with the username of the user's _id
         const profile = await Profile.create({
-            username: user._id
+            user: user._id
         })
 
         const token = jwt.sign({ username: user.username, _id: user._id }, process.env.JWT_SECRET);

@@ -16,15 +16,15 @@ router.post('/', async (req, res) => {
     try {
         const plant = await PlantList.create(req.body)
 
-        const user = await User.findById(req.user._id);
+        //push plant._id into profile schema
         const profile = await Profile.findOneAndUpdate(
-            {username: user._id}, 
+            {user: req.user._id}, 
             {$push: {plantList: plant._id}}
         )
         
         res.status(201).json({plant, profile})
     } catch (err) {
-        res.status(500).json(error);
+        res.status(500).json(err)
     }
 })
 
@@ -38,10 +38,32 @@ router.get('/', async (req, res) => {
     }
 })
 
+//to show a specific plant
 router.get('/:plantId', async (req, res) => {
     try {
         const plant = await PlantList.findById(req.params.plantId)
         res.status(200).json(plant)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+//to update a plant 
+router.put('/:plantId', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+
+        const updatedPlant = await PlantList.findByIdAndUpdate(
+           req.params.plantId, 
+           req.body,
+           {new: true}
+        )
+
+        res.status(200).json(updatedPlant)
     } catch (err) {
         res.status(500).json(err)
     }

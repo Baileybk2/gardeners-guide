@@ -10,7 +10,7 @@ router.get('/:userId', verifyToken, async (req, res) => {
             return res.status(401).json({ error: "Unauthorized"})
         }
         const user = await User.findById(req.user._id);
-        const profile = await Profile.findOne({username: user._id}).populate('username')
+        const profile = await Profile.findOne({user: user._id}).populate('user')
         
         if (!user) {
             res.status(404)
