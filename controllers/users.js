@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const Profile = require('../models/profile')
 const jwt = require('jsonwebtoken');
 
 
@@ -19,8 +20,13 @@ router.post('/signup', async (req, res) => {
             username: req.body.username,
             hashedPassword: bcrypt.hashSync(req.body.password, SALT_LENGTH)
         })
+        //Create a new profile with the username of the user's _id
+        const profile = await Profile.create({
+            user: user._id
+        })
+
         const token = jwt.sign({ username: user.username, _id: user._id }, process.env.JWT_SECRET);
-        res.status(201).json({ user, token });
+        res.status(201).json({ user, profile, token });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
