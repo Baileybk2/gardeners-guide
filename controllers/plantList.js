@@ -120,12 +120,29 @@ router.put('/:plantId/water/:whenToWaterId', async (req, res) => {
         water.conditionOfSoil = req.body.conditionOfSoil
         await plant.save()
 
-        res.status(200).json({ message: 'ok' })
+        res.status(200).json({ message: 'Okay' })
     } catch (err) {
         res.status(500).json(err)
     }
 })
 
+//to delete whenToWater
+router.delete('/:plantId/water/:whenToWaterId', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+        
+        const plant = await PlantList.findById(req.params.plantId)
+        plant.whenToWater.remove({_id: req.params.whenToWaterId})
+        await plant.save()
+        res.status(200).json({ message: 'Okay'})
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
 
 //to add whenToFertilize for plant at plantId
 router.post('/:plantId/fertilize', async (req, res) => {
@@ -144,4 +161,44 @@ router.post('/:plantId/fertilize', async (req, res) => {
         res.status(500).json(err)
     }
 })
+
+//to update whenToFertilize
+router.put('/:plantId/fertilize/:whenToFertilizeId', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+    
+        const plant = await PlantList.findById(req.params.plantId)
+        const fertilize = plant.whenToFertilize.id(req.params.whenToFertilizeId)
+        fertilize.nameOfDay = req.body.nameOfDay
+        fertilize.dateOfDay = req.body.dateOfDay
+        await plant.save()
+
+        res.status(200).json({ message: 'Okay' })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+//to delete whenToFertilize
+router.delete('/:plantId/fertilize/:whenToFertilizeId', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+        
+        const plant = await PlantList.findById(req.params.plantId)
+        plant.whenToFertilize.remove({_id: req.params.whenToFertilizeId})
+        await plant.save()
+        res.status(200).json({ message: 'Okay'})
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
 module.exports = router
