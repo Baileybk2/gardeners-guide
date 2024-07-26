@@ -68,4 +68,21 @@ router.put('/:plantId', async (req, res) => {
         res.status(500).json(err)
     }
 })
+
+//to delete a plant
+router.delete('/:plantId', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+
+        const deletedPlant = await PlantList.findByIdAndDelete(req.params.plantId)
+
+        res.status(200).json(deletedPlant)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
 module.exports = router;
