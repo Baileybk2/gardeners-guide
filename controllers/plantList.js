@@ -104,4 +104,44 @@ router.post('/:plantId/water', async (req, res) => {
     }
 })
 
+//to update whenToWater
+router.put('/:plantId/water/:whenToWaterId', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+    
+        const plant = await PlantList.findById(req.params.plantId)
+        const water = plant.whenToWater.id(req.params.whenToWaterId)
+        water.nameOfDay = req.body.nameOfDay
+        water.dateOfDay = req.body.dateOfDay
+        water.conditionOfSoil = req.body.conditionOfSoil
+        await plant.save()
+
+        res.status(200).json({ message: 'ok' })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+
+//to add whenToFertilize for plant at plantId
+router.post('/:plantId/fertilize', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+
+        const plant = await PlantList.findById(req.params.plantId)
+        plant.whenToFertilize.push(req.body)
+        await plant.save()
+        res.status(201).json(plant)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
 module.exports = router
