@@ -62,10 +62,6 @@ const plantListSchema = new mongoose.Schema (
     },
     growTime: {
         type: String,
-    }, 
-    plantOwner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
     }
     }
 )
