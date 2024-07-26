@@ -1,9 +1,9 @@
-const express = require('express');
-const verifyToken = require('../middleware/verify-token.js');
-const PlantList = require('../models/plantList.js');
-const Profile = require('../models/profile.js');
+const express = require('express')
+const verifyToken = require('../middleware/verify-token.js')
+const PlantList = require('../models/plantList.js')
+const Profile = require('../models/profile.js')
 const User = require('../models/user.js')
-const router = express.Router();
+const router = express.Router()
 
 // ========== Public Routes ===========
 
@@ -85,4 +85,23 @@ router.delete('/:plantId', async (req, res) => {
         res.status(500).json(err)
     }
 })
-module.exports = router;
+
+//to add whenToWater for plant at plantId
+router.post('/:plantId/water', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user._id})
+
+        if (!profile.user.equals(req.user._id)) {
+            return res.status(403).send("Not allowed to do that.")
+        }
+
+        const plant = await PlantList.findById(req.params.plantId)
+        plant.whenToWater.push(req.body)
+        await plant.save()
+        res.status(201).json(plant)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+module.exports = router
