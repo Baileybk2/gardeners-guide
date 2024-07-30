@@ -43,12 +43,19 @@ const plantListSchema = new mongoose.Schema({
   whenToWater: [whenToWaterSchema],
   whenToFertilize: [whenToFertilizeSchema],
   howMuchSun: {
-    type: String,
-    enum: ["Full Sun", "Partial Sun", "Full Shade"],
+    type: Number,
   },
   typeOfLight: {
     type: String,
-    enum: ["Direct Sunlight", "Indirect Light", "Medium Light", "Low Light"],
+    enum: [
+        "Direct Sunlight",
+        "Indirect Light",
+        "Medium Light",
+        "Low Light",
+        "Full Sun",
+        "Partial Sun",
+        "Full Shade"
+    ],
   },
   bestSeasonToPlant: {
     type: String,
