@@ -1,22 +1,8 @@
 const mongoose = require("mongoose")
 
 const whenToFertilizeSchema = new mongoose.Schema({
-  nameOfDay: {
-    type: String,
-    enum: [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ],
-  },
   dateOfDay: {
-    type: Number,
-    min: 1,
-    max: 31,
+    type: Date,
   },
 })
 
