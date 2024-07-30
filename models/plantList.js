@@ -16,10 +16,6 @@ const whenToFertilizeSchema = new mongoose.Schema(
 
 const whenToWaterSchema = new mongoose.Schema(
     {
-        nameOfDay: {
-            type: String,
-            enum: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        },
         dateOfDay: {
             type: Number,
             min: 1,
@@ -52,9 +48,11 @@ const plantListSchema = new mongoose.Schema (
     }, 
     typeOfLight: {
         type: String,
+        enum: ['Direct Sunlight', 'Indirect Light', 'Medium Light', 'Low Light']
     }, 
     bestSeasonToPlant: {
         type: String,
+        enum: ['Spring', 'Summer', 'Fall', 'Winter']
     },
     indoorOutdoor: {
         type: String,
