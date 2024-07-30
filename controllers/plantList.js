@@ -21,7 +21,6 @@ router.post('/', async (req, res) => {
             {user: req.user._id}, 
             {$push: {plantList: plant._id}}
         )
-        
         res.status(201).json({plant, profile})
     } catch (err) {
         res.status(500).json(err)
