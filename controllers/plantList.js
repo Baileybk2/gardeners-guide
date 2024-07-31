@@ -114,7 +114,6 @@ router.put('/:plantId/water/:whenToWaterId', async (req, res) => {
     
         const plant = await PlantList.findById(req.params.plantId)
         const water = plant.whenToWater.id(req.params.whenToWaterId)
-        water.nameOfDay = req.body.nameOfDay
         water.dateOfDay = req.body.dateOfDay
         water.conditionOfSoil = req.body.conditionOfSoil
         await plant.save()
@@ -172,7 +171,6 @@ router.put('/:plantId/fertilize/:whenToFertilizeId', async (req, res) => {
     
         const plant = await PlantList.findById(req.params.plantId)
         const fertilize = plant.whenToFertilize.id(req.params.whenToFertilizeId)
-        fertilize.nameOfDay = req.body.nameOfDay
         fertilize.dateOfDay = req.body.dateOfDay
         await plant.save()
 
