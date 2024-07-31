@@ -1,10 +1,13 @@
 const mongoose = require("mongoose")
 
-const whenToFertilizeSchema = new mongoose.Schema({
-  dateOfDay: {
-    type: Date,
-  },
-})
+const whenToFertilizeSchema = new mongoose.Schema(
+    {
+    dateOfDay: {
+        type: Date,
+    },
+},   
+    { timestamps: false }
+)
 
 const whenToWaterSchema = new mongoose.Schema({
   dateOfDay: {
