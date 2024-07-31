@@ -5,9 +5,8 @@ const whenToFertilizeSchema = new mongoose.Schema(
     dateOfDay: {
         type: Date,
     },
-},   
-    { timestamps: false }
-)
+})  
+
 
 const whenToWaterSchema = new mongoose.Schema({
   dateOfDay: {
