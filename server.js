@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URI)
 mongoose.connection.on("connected", () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`)
 })
-app.use(cors({ origin: process.env.REACT_FRONT_END_URL }))
+app.use(cors({ origin: "*" }))
 app.use(express.json())
 
 // Routes go here
