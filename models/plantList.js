@@ -58,6 +58,6 @@ const plantListSchema = new mongoose.Schema({
   },
 })
 
-const PlantList = mongoose.model("Plant List", plantListSchema)
+const PlantList = mongoose.model("PlantList", plantListSchema)
 
 module.exports = PlantList

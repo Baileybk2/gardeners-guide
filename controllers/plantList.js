@@ -30,9 +30,11 @@ router.post("/", async (req, res) => {
 //to show all plants
 router.get("/", async (req, res) => {
   try {
-    const allThePlants = await PlantList.find({})
-    console.log(allThePlants)
-    res.status(200).json(allThePlants)
+    const user = await User.findById(req.user._id);
+    const profile = await Profile.findOne({user: user._id}).populate('plantList')
+
+    res.status(200).json(profile)
+
   } catch (err) {
     res.status(500).json(err)
   }
