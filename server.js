@@ -22,6 +22,7 @@ app.use("/users", usersRouter)
 app.use("/profiles", profilesRouter)
 app.use("/plantList", plantListRouter)
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000
+app.listen(port, () => {
   console.log("The express app is ready!")
 })
